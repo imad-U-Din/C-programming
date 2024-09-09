@@ -1,0 +1,24 @@
+import pandas as pd
+from ipyleaflet import Map, Marker, Popup, Icon
+from IPython.display import display
+
+# Load your dataset
+df = pd.read_csv('Dataset .csv')
+
+# Create a base map centered around the mean latitude and longitude
+map_center = [df['Latitude'].mean(), df['Longitude'].mean()]
+
+# Create the map
+mymap = Map(center=map_center, zoom=12)
+
+# Add markers for each restaurant
+for idx, row in df.iterrows():
+    marker = Marker(
+        location=[row['Latitude'], row['Longitude']],
+        popup=Popup(child=row['Restaurant Name']),
+        icon=Icon(icon='info-sign')
+    )
+    mymap.add_layer(marker)
+
+# Display the map
+display(mymap)
